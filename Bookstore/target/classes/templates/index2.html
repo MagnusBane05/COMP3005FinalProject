@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Bookstore</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div align="center">	
+   <div sec:authorize="isAuthenticated()">
+		Welcome <b><span sec:authentication="name">Username</span></b>
+		&nbsp;
+		<i><span sec:authentication="principal.authorities">Roles</span></i>
+	</div>
+		
+	<form th:action="@{/logout}" method="post">
+		<input type="submit" value="Logout" />
+	</form>
+	
+	<h1>Index</h1>
+	<div sec:authorize="hasAnyAuthority('ADMIN', 'CUSTOMER')">
+		<div><a href="/books">Books</a></div>
+		<div sec:authorize="hasAnyAuthority('CUSTOMER')"><a href="/orders">Orders</a></div>
+		<div sec:authorize="hasAnyAuthority('ADMIN')"><a href="/reports">Reports</a></div>
+	</div>
+    <br/><br/>
+</div>
+</body>
+</html>

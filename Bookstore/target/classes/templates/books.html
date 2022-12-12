@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Bookstore Books</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container text-center">
+    <div>
+        <form th:action="@{/logout}" method="post">
+            <p>
+                Welcome <b>[[${#request.userPrincipal.principal.username}]]</b>
+            </p>
+            <input type="submit" value="Sign Out" />
+        </form>
+    </div>
+    <div>
+		<div ><a href="/">Home</a></div>
+		<div sec:authorize="hasAnyAuthority('ADMIN')"><a href="/books/purchase">Purchase New Book</a></div>
+		<div sec:authorize="hasAnyAuthority('CUSTOMER')"><a href="/orders">Orders</a></div>
+		<div sec:authorize="hasAnyAuthority('ADMIN')"><a href="/reports">Reports</a></div>
+        <h1>List of Books</h1>
+    </div>
+    
+    <div>
+	    <form th:action="@{/books/search}" th:object="${searchForm}" 
+			method="post">
+ 		 	<label>Search:</label>
+  			<input type="text" th:field="*{searchTerm}" />
+  			<br>
+ 		 	<label>Minimum Pages:</label>
+  			<input type="number" th:field="*{minPages}" />
+ 		 	<label>Maximum Pages:</label>
+  			<input type="number" th:field="*{maxPages}" />
+  			<br>
+ 		 	<label>Minimum Price:</label>
+  			<input type="number" th:field="*{minPrice}" />
+ 		 	<label>Maximum Price:</label>
+  			<input type="number" th:field="*{maxPrice}" />
+  			<input type="submit" value="Search" />
+		</form>
+	</div>
+
+    <div>
+	   	<form th:action="@{/orders}" method="post">
+	        <table class="table table-striped table-bordered">
+	            <thead class="thead-dark">
+	            <tr>
+	                <th>Book Title</th>
+                	<th>Quantity</th>
+	                <th sec:authorize="hasAnyAuthority('CUSTOMER')">Add to Order</th>
+	            </tr>
+	            </thead>
+	            <tbody>
+	            <tr th:each="book: ${bookList}">
+	                <td><a th:href="@{/books/{ISBN}(ISBN=${book.ISBN})}" th:text="${book.name}">Book Title</a></td>
+                	<td th:text="${book.quantity}">Quantity</td>
+	               	<td sec:authorize="hasAnyAuthority('CUSTOMER')">
+		               	<input type="checkbox"
+					           name="selectedBooks"
+					           th:value="${book.ISBN}"/>
+		           	</td>
+				    
+	            </tr>
+	            </tbody>
+	        </table>
+		  <button type="submit">Checkout</button>
+		</form>
+    </div>
+    
+</div>
+</body>

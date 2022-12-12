@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="ISO-8859-1">
+    <title th:text=${book.name}>Book</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container text-center">
+    <div>
+        <form th:action="@{/logout}" method="post">
+            <p>
+                Welcome <b>[[${#request.userPrincipal.principal.username}]]</b>
+            </p>
+            <input type="submit" value="Sign Out" />
+        </form>
+    </div>
+    <div>
+		<div><a href="/books">Books</a></div>
+        <h1 th:text=${book.name}>Book</h1>
+    </div>
+
+    <div>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>Author</th>
+                <th>ISBN</th>
+                <th>Genre</th>
+                <th>Number of Pages</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th sec:authorize="hasAnyAuthority('ADMIN')">Purchase Price</th>
+                <th>Publisher</th>
+                <th sec:authorize="hasAnyAuthority('ADMIN')">Sale Percentage</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+               	<td th:text="${book.author}">Author</td>
+                <td th:text="${book.ISBN}">ISBN</td>
+                <td th:text="${book.genre}">Genre</td>
+                <td th:text="${book.numPages}">Number of Pages</td>
+                <td th:text="${book.quantity}">Quantity</td>
+                <td th:text="${#numbers.formatCurrency(book.price)}">Price</td>
+                <td sec:authorize="hasAnyAuthority('ADMIN')" th:text="${#numbers.formatCurrency(book.purchasePrice)}">Purchase Price</td>
+               	<td th:text="${book.publisher.getName()}">Publisher</td>
+                <td sec:authorize="hasAnyAuthority('ADMIN')" th:text="${#numbers.formatPercent(book.salePercentage, 2, 1)}">Sale Percentage</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
