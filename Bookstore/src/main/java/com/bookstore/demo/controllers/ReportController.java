@@ -20,6 +20,8 @@ import com.bookstore.demo.services.ReportService;
 @RequestMapping("/reports")
 public class ReportController {
 
+	// SERVICES
+
 	@Autowired
 	ReportService reportService;
 
@@ -31,6 +33,8 @@ public class ReportController {
 		FilterForm filterForm = new FilterForm();
 		return filterForm;
 	}
+
+	// REQUEST MAPPINGS
 
 	@GetMapping()
 	public String viewReports(Model model) {

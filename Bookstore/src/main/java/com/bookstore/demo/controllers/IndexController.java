@@ -18,8 +18,11 @@ import com.bookstore.demo.services.UserService;
 public class IndexController {
 
 	// SERVICES
+
 	@Autowired
 	UserService userService;
+
+	// REQUEST MAPPINGS
 
 	@GetMapping("")
 	public String viewHomePage(Model model) {

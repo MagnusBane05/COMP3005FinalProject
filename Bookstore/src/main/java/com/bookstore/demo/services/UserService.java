@@ -32,7 +32,6 @@ public class UserService {
 	}
 
 	public void addUser(User user) {
-		// TODO Auto-generated method stub
 		userRepository.save(user);
 	}
 
