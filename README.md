@@ -16,5 +16,5 @@ login and passwords:
 
 1- Run ``DDL.sql`` and ``DML.sql`` script to create the database.<br/>
 2- Setup ``application.properties`` accordance to your own MySQL sever localhost connection.<br/>
-3- Run ``Bookstore Application.java``<br/>
+3- Run ``BookstoreApplication.java``<br/>
 5- Open your browser and go ``localhost:8080``
